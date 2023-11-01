@@ -14,8 +14,8 @@ spec:
     - namespace: '*'
       server: '*'
   clusterResourceWhitelist:
-  - group: ''
-    kind: Namespace
+  - group: '*'
+    kind: '*'
 
 ---
 apiVersion: argoproj.io/v1alpha1

@@ -101,6 +101,22 @@ sources:
 The Matrix generator may be used to combine the generated parameters of two separate generators.
 
 ```yaml
+spec:
+  generators:
+    # matrix 'parent' generator
+    - matrix:
+        generators:
+          # git generator, 'child' #1
+          - git:
+              repoURL: https://github.com/rljohnsn/argocd-bootstrap.git
+              revision: main
+              files:
+                - path: "foundation-charts/"
+          # cluster generator, 'child' #2
+          - clusters:
+              selector:
+                matchLabels:
+                  argocd.argoproj.io/secret-type: cluster
 
 ```
 

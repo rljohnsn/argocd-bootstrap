@@ -1,6 +1,6 @@
 component: metrics-server
 repoURL: https://kubernetes-sigs.github.io/metrics-server/
-version: 3.8.2
+version: 3.11.0
 namespace: kube-system
 values: |-
   apiService:

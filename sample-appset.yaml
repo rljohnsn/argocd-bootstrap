@@ -43,8 +43,8 @@ spec:
       sources:
         # Sample Helm Chart
         - repoURL: '{{chartURL}}'
-          targetRevision: HEAD 
-          path: '.'
+          targetRevision: '{{chartVersion}}' 
+          path: '{{chartPath}}'
           helm: 
             releaseName: '{{component}}'
             ignoreMissingValueFiles: true
@@ -59,8 +59,8 @@ spec:
               - $values/variant/{{region}}/{{cluster}}/{{component}}-values.yaml
         # Values overrides
         - repoURL: '{{valuesURL}}'
-          targetRevision: HEAD 
-          path: '.'
+          targetRevision: '{{valuesVersion}}' 
+          path: '{{valuesPath}}'
           ref: values
       destination:
         server: '{{server}}'

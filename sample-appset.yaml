@@ -42,34 +42,26 @@ spec:
       project: 'sample'
       sources:
         # Sample Helm Chart
-        - repoURL: https://github.com/rljohnsn/argocd-helm.git
+        - repoURL: '{{chartURL}}'
           targetRevision: HEAD 
           path: '.'
           helm: 
             releaseName: '{{component}}'
             ignoreMissingValueFiles: true
             valueFiles:
-              - $base/values.yaml
-              - $env/{{env}}/values.yaml
-              - $env/{{env}}/{{component}}-values.yaml
-              - $variant/{{region}}/values.yaml
-              - $variant/{{region}}/{{component}}-values.yaml
-              - $variant/{{region}}/{{cluster}}/values.yaml
-        # Global values overrides
-        - repoURL: https://github.com/rljohnsn/argocd-env.git
+              - $values/base/values.yaml
+              - $values/base/{{component}}-values.yaml
+              - $values/env/{{env}}/values.yaml
+              - $values/env/{{env}}/{{component}}-values.yaml
+              - $values/variant/{{region}}/values.yaml
+              - $values/variant/{{region}}/{{component}}-values.yaml
+              - $values/variant/{{region}}/{{cluster}}/values.yaml
+              - $values/variant/{{region}}/{{cluster}}/{{component}}-values.yaml
+        # Values overrides
+        - repoURL: '{{valuesURL}}'
           targetRevision: HEAD 
-          path: 'base'
-          ref: base
-        # Service / Env specific overrides
-        - repoURL: https://github.com/rljohnsn/argocd-env.git
-          targetRevision: HEAD 
-          path: 'env'
-          ref: env
-        # Variants
-        - repoURL: https://github.com/rljohnsn/argocd-env.git
-          targetRevision: HEAD 
-          path: 'variant'
-          ref: variant
+          path: '.'
+          ref: values
       destination:
         server: '{{server}}'
         namespace: '{{namespace}}'

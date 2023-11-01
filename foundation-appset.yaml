@@ -1,0 +1,84 @@
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: foundation
+spec:
+  description: "Supporting services to make a K8s cluster ready to host application services"
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: '*'
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: foundation-appset
+  namespace: argocd
+spec:
+  generators:
+    # matrix 'parent' generator
+    - matrix:
+        generators:
+          # git generator, 'child' #1
+          - git:
+              repoURL: https://github.com/rljohnsn/argocd-bootstrap.git
+              revision: main
+              files:
+                - path: "foundation-charts/"
+          # cluster generator, 'child' #2
+          - clusters:
+              selector:
+                matchLabels:
+                  argocd.argoproj.io/secret-type: cluster
+  template:
+    metadata:
+      name: '{{component}}'
+    spec:
+      project: 'foundation'
+      source:
+        chart: '{{component}}'
+        repoURL: '{{repoURL}}'
+        targetRevision: '{{version}}'
+        helm:
+          values: |-
+            {{values}}
+      destination:
+        server: '{{server}}'
+        namespace: '{{namespace}}'
+
+      syncPolicy:
+        automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
+          prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
+          selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+          allowEmpty: false # Allows deleting all application resources during automatic syncing ( false by default ).
+        syncOptions: # Sync options which helps to modify sync behavior
+          - Validate=false # disables resource validation (equivalent to 'kubectl apply --validate=false') ( true by default ).
+          - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
+          - PrunePropagationPolicy=foreground # Supported policies are background, foreground and orphan.
+          - PruneLast=true # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
+        # The retry feature is available since v1.7
+          - RespectIgnoreDifferences=true
+        retry:
+          limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+          backoff:
+            duration: 5s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
+            factor: 2 # a factor to multiply the base duration after each failed retry
+            maxDuration: 3m # the maximum amount of time allowed for the backoff strategy
+
+      # Will ignore differences between live and desired states during the diff. Note that these configurations are not
+      # used during the sync process.
+      ignoreDifferences:
+        # for the specified json pointers
+        - group: apps
+          kind: Deployment
+          jsonPointers:
+            - /spec/replicas
+        # for the specified managedFields managers
+        - group: "*"
+          kind: "*"
+          managedFieldsManagers:
+            - kube-controller-manager

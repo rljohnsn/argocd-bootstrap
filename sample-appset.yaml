@@ -7,9 +7,14 @@ spec:
   description: "Sample set of services"
   sourceRepos:
     - '*'
+  sourceNamespaces:
+    - 'sample'
   destinations:
-    - namespace: '*'
+    - namespace: 'sample'
       server: '*'
+  clusterResourceWhitelist:
+  - group: ''
+    kind: Namespace
 
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -41,15 +46,15 @@ spec:
           targetRevision: HEAD 
           path: '.'
           helm: 
-            releaseName: '{{$.Values.sample.appName}}'
+            releaseName: '{{component}}'
             ignoreMissingValueFiles: true
             valueFiles:
               - $base/values.yaml
-              - $env/{{$.Values.sample.env}}/values.yaml
-              - $env/{{$.Values.sample.env}}/{{$.Values.sample.appName}}-values.yaml
-              - $variant/{{$.Values.sample.region}}/values.yaml
-              - $variant/{{$.Values.sample.region}}/{{$.Values.sample.appName}}-values.yaml
-              - $variant/{{$.Values.sample.region}}/{{$.Values.sample.cluster}}/values.yaml
+              - $env/{{env}}/values.yaml
+              - $env/{{env}}/{{component}}-values.yaml
+              - $variant/{{region}}/values.yaml
+              - $variant/{{region}}/{{component}}-values.yaml
+              - $variant/{{region}}/{{cluster}}/values.yaml
         # Global values overrides
         - repoURL: https://github.com/rljohnsn/argocd-env.git
           targetRevision: HEAD 

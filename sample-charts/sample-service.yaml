@@ -1,33 +1,3 @@
 component: sample
 version: 1.0.0
 namespace: sample
-sources:
-  # Sample Helm Chart
-  - chart: argocd-helm
-    repoURL: https://github.com/rljohnsn/argocd-helm.git
-    targetRevision: HEAD 
-    helm: 
-      releaseName: '{{$.Values.sample.appName}}'
-      ignoreMissingValueFiles: true
-      valueFiles:
-        - $base/values.yaml
-        - $env/{{$.Values.sample.env}}/values.yaml
-        - $env/{{$.Values.sample.env}}/{{$.Values.sample.appName}}-values.yaml
-        - $variant/{{$.Values.sample.region}}/values.yaml
-        - $variant/{{$.Values.sample.region}}/{{$.Values.sample.appName}}-values.yaml
-        - $variant/{{$.Values.sample.region}}/{{$.Values.sample.cluster}}/values.yaml
-  # Global values overrides
-  - repoURL: https://github.com/rljohnsn/argocd-env.git
-    targetRevision: HEAD 
-    path: base
-    ref: base
-  # Service / Env specific overrides
-  - repoURL: https://github.com/rljohnsn/argocd-env.git
-    targetRevision: HEAD 
-    path: env
-    ref: env
-  # Variants
-  - repoURL: https://github.com/rljohnsn/argocd-env.git
-    targetRevision: HEAD 
-    path: variant
-    ref: variant

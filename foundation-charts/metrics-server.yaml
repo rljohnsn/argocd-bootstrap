@@ -3,7 +3,5 @@ repoURL: https://kubernetes-sigs.github.io/metrics-server/
 version: 3.11.0
 namespace: kube-system
 values: |-
-  apiService:
-    create: true
-  args: 
-    - --kubelet-insecure-tls
+  hostNetwork:
+    enabled: true

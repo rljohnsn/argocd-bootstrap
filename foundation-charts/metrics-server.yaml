@@ -5,6 +5,5 @@ namespace: kube-system
 values: |-
   apiService:
     create: true
-  extraArgs: 
-    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+  args: 
     - --kubelet-insecure-tls

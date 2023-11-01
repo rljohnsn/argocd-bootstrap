@@ -77,21 +77,36 @@ argocd-helm
 ArgoCD Application objects can take advantage of sourcing configuration, and or settings from more than one resource.
 
 ```yaml
-sources:
-  # Standard Postman Helm Chart
-  - chart: argocd-helm-sample
-    repoURL: https://github.com/rljohnsn/argocd-helm-sample.git
-    targetRevision: HEAD 
-    helm: 
-      releaseName: '{{$.Values.sample.appName}}'
-  # Global values overrides
-  - repoURL: https://github.com/rljohnsn/argocd-env.git
-    targetRevision: HEAD 
-    path: 'base'
-  # Service / Env specific overrides
-  - repoURL: https://github.com/rljohnsn/argocd-env.git
-    targetRevision: HEAD 
-    path: '{{$.Values.sample.env}}/{{$.Values.sample.appName}}-values.yaml'
+      sources:
+        # Sample Helm Chart
+        - repoURL: https://github.com/rljohnsn/argocd-helm.git
+          targetRevision: HEAD 
+          path: '.'
+          helm: 
+            releaseName: '{{component}}'
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - $base/values.yaml
+              - $env/{{env}}/values.yaml
+              - $env/{{env}}/{{component}}-values.yaml
+              - $variant/{{region}}/values.yaml
+              - $variant/{{region}}/{{component}}-values.yaml
+              - $variant/{{region}}/{{cluster}}/values.yaml
+        # Global values overrides
+        - repoURL: https://github.com/rljohnsn/argocd-env.git
+          targetRevision: HEAD 
+          path: 'base'
+          ref: base
+        # Service / Env specific overrides
+        - repoURL: https://github.com/rljohnsn/argocd-env.git
+          targetRevision: HEAD 
+          path: 'env'
+          ref: env
+        # Variants
+        - repoURL: https://github.com/rljohnsn/argocd-env.git
+          targetRevision: HEAD 
+          path: 'variant'
+          ref: variant
 
 
 ```
@@ -113,10 +128,8 @@ spec:
               files:
                 - path: "foundation-charts/"
           # cluster generator, 'child' #2
-          - clusters:
-              selector:
-                matchLabels:
-                  argocd.argoproj.io/secret-type: cluster
+          # {} matches any and all clusters registered
+          - clusters: {}
 
 ```
 

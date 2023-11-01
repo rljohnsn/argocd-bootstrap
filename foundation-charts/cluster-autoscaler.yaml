@@ -1,0 +1,14 @@
+component: cluster-autoscaler
+project: default
+repoURL:  https://kubernetes.github.io/autoscaler
+version: 9.15.0
+namespace: kube-system
+values: |-
+  rbac:
+    serviceAccount:
+      annotations: 
+          eks.amazonaws.com/role-arn: arn:aws:iam::$account-id:role/AmazonEKSClusterAutoscalerRole
+  extraArgs:
+    skip-nodes-with-local-storage: false
+    balance-similar-node-groups: true
+    stderrthreshold: info

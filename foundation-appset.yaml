@@ -30,10 +30,7 @@ spec:
               files:
                 - path: "foundation-charts/"
           # cluster generator, 'child' #2
-          - clusters:
-              selector:
-                matchLabels:
-                  argocd.argoproj.io/secret-type: cluster
+          - clusters: {}
   template:
     metadata:
       name: '{{component}}'

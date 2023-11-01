@@ -2,7 +2,7 @@ component: sample
 version: 1.0.0
 namespace: sample
 sources:
-  # Standard Postman Helm Chart
+  # Sample Helm Chart
   - chart: argocd-helm
     repoURL: https://github.com/rljohnsn/argocd-helm.git
     targetRevision: HEAD 

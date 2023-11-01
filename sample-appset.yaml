@@ -29,17 +29,42 @@ spec:
               files:
                 - path: "sample-charts/"
           # cluster generator, 'child' #2
-          - clusters:
-              selector:
-                matchLabels:
-                  argocd.argoproj.io/secret-type: cluster
+          - clusters: {}
   template:
     metadata:
       name: '{{component}}'
     spec:
       project: 'sample'
       sources:
-        {{sources}}
+        # Sample Helm Chart
+        - repoURL: https://github.com/rljohnsn/argocd-helm.git
+          targetRevision: HEAD 
+          path: '.'
+          helm: 
+            releaseName: '{{$.Values.sample.appName}}'
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - $base/values.yaml
+              - $env/{{$.Values.sample.env}}/values.yaml
+              - $env/{{$.Values.sample.env}}/{{$.Values.sample.appName}}-values.yaml
+              - $variant/{{$.Values.sample.region}}/values.yaml
+              - $variant/{{$.Values.sample.region}}/{{$.Values.sample.appName}}-values.yaml
+              - $variant/{{$.Values.sample.region}}/{{$.Values.sample.cluster}}/values.yaml
+        # Global values overrides
+        - repoURL: https://github.com/rljohnsn/argocd-env.git
+          targetRevision: HEAD 
+          path: 'base'
+          ref: base
+        # Service / Env specific overrides
+        - repoURL: https://github.com/rljohnsn/argocd-env.git
+          targetRevision: HEAD 
+          path: 'env'
+          ref: env
+        # Variants
+        - repoURL: https://github.com/rljohnsn/argocd-env.git
+          targetRevision: HEAD 
+          path: 'variant'
+          ref: variant
       destination:
         server: '{{server}}'
         namespace: '{{namespace}}'

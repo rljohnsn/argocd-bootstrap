@@ -6,5 +6,5 @@ values: |-
   apiService:
     create: true
   extraArgs: 
-    - --kubelet-preferred-address-types=InternalIP
+    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
     - --kubelet-insecure-tls

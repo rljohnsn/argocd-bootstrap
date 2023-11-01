@@ -89,8 +89,8 @@ ArgoCD Application objects can take advantage of sourcing configuration, and or 
       sources:
         # Sample Helm Chart
         - repoURL: '{{chartURL}}'
-          targetRevision: HEAD 
-          path: '.'
+          targetRevision: '{{chartVersion}}' 
+          path: '{{chartPath}}'
           helm: 
             releaseName: '{{component}}'
             ignoreMissingValueFiles: true
@@ -105,8 +105,8 @@ ArgoCD Application objects can take advantage of sourcing configuration, and or 
               - $values/variant/{{region}}/{{cluster}}/{{component}}-values.yaml
         # Values overrides, referenced above as $values
         - repoURL: '{{valuesURL}}'
-          targetRevision: HEAD 
-          path: '.'
+          targetRevision: '{{valuesVersion}}' 
+          path: '{{valuesPath}}'
           ref: values
       destination:
         server: '{{server}}'
@@ -132,8 +132,8 @@ We can expand the multiple sources and pull from distinct repos at each level.
       sources:
         # Sample Helm Chart
         - repoURL: '{{chartURL}}'
-          targetRevision: HEAD 
-          path: '.'
+          targetRevision: '{{chartVersion}}' 
+          path: '{{chartPath}}'
           helm: 
             releaseName: '{{component}}'
             ignoreMissingValueFiles: true
@@ -145,18 +145,18 @@ We can expand the multiple sources and pull from distinct repos at each level.
               - $variant/{{region}}/{{component}}-values.yaml
               - $variant/{{region}}/{{cluster}}/values.yaml
         # Global values overrides
-        - repoURL: https://github.com/rljohnsn/argocd-env.git
-          targetRevision: HEAD 
+        - repoURL: '{{valuesURL}}'
+          targetRevision: '{{valuesVersion}}' 
           path: 'base'
           ref: base
         # Service / Env specific overrides
-        - repoURL: https://github.com/rljohnsn/argocd-env.git
-          targetRevision: HEAD 
+        - repoURL: '{{valuesURL}}'
+          targetRevision: '{{valuesVersion}}' 
           path: 'env'
           ref: env
         # Variants
-        - repoURL: https://github.com/rljohnsn/argocd-env.git
-          targetRevision: HEAD 
+        - repoURL: '{{valuesURL}}'
+          targetRevision: '{{valuesVersion}}' 
           path: 'variant'
           ref: variant
 

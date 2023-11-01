@@ -1,0 +1,8 @@
+component: sample2
+# Chart URL can be Helm Repository or Gitrepo
+chartURL: https://github.com/rljohnsn/argocd-helm.git
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+version: 1.0.0
+namespace: sample
+values: |
+  replicaCount: 1

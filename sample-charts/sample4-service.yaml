@@ -1,0 +1,13 @@
+component: sample4
+# Chart URL can be Helm Repository or Gitrepo
+chartURL: https://github.com/rljohnsn/argocd-helm.git
+# If using a helm repository, this would be chart version
+# If using a gitrepo branch and tags can be used
+chartVersion: HEAD
+chartPath: '.'
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: '.'
+namespace: sample
+project: sample
+

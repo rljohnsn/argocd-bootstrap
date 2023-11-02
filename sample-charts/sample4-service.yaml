@@ -10,4 +10,4 @@ valuesVersion: HEAD
 valuesPath: '.'
 namespace: sample
 project: sample
-
+values: ''

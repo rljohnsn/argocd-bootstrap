@@ -1,10 +1,10 @@
 component: ghost
 # Chart URL can be Helm Repository or Gitrepo
-chartURL: https://github.com/bitnami/charts/tree/main/bitnami/ghost
+chartURL: https://github.com/bitnami/charts
 # If using a helm repository, this would be chart version
 # If using a gitrepo branch and tags can be used
 chartVersion: HEAD
-chartPath: '.'
+chartPath: 'bitnami/ghost'
 valuesURL: https://github.com/rljohnsn/argocd-env.git
 valuesVersion: HEAD
 valuesPath: '.'

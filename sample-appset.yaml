@@ -47,6 +47,8 @@ spec:
           path: '{{chartPath}}'
           helm: 
             releaseName: '{{component}}'
+            values: |-
+              {{values}}
             ignoreMissingValueFiles: true
             valueFiles:
               - '$values/base/values.yaml'

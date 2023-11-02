@@ -10,4 +10,7 @@ valuesVersion: HEAD
 valuesPath: '.'
 namespace: sample
 project: sample
+values: |-
+  service: 
+    type: ClusterIP
 

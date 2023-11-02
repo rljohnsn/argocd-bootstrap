@@ -49,14 +49,14 @@ spec:
             releaseName: '{{component}}'
             ignoreMissingValueFiles: true
             valueFiles:
-              - $values/base/values.yaml
-              - $values/base/{{component}}-values.yaml
-              - $values/env/{{env}}/values.yaml
-              - $values/env/{{env}}/{{component}}-values.yaml
-              - $values/variant/{{region}}/values.yaml
-              - $values/variant/{{region}}/{{component}}-values.yaml
-              - $values/variant/{{region}}/{{cluster}}/values.yaml
-              - $values/variant/{{region}}/{{cluster}}/{{component}}-values.yaml
+              - '$values/base/values.yaml'
+              - '$values/base/{{component}}-values.yaml'
+              - '$values/env/{{env}}/values.yaml'
+              - '$values/env/{{env}}/{{component}}-values.yaml'
+              - '$values/variant/{{region}}/values.yaml'
+              - '$values/variant/{{region}}/{{component}}-values.yaml'
+              - '$values/variant/{{region}}/{{cluster}}/values.yaml'
+              - '$values/variant/{{region}}/{{cluster}}/{{component}}-values.yaml'
         # Values overrides
         - repoURL: '{{valuesURL}}'
           targetRevision: '{{valuesVersion}}' 

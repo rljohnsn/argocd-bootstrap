@@ -1,6 +1,6 @@
 component: ghost
 # Chart URL can be Helm Repository or Gitrepo
-chartURL: https://charts.binami.com
+chartURL: https://charts.binami.com/bitnami
 # If using a helm repository, this would be chart version
 # If using a gitrepo branch and tags can be used
 chartVersion: 5.71.0

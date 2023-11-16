@@ -83,7 +83,10 @@ ArgoCD Application objects can take advantage of sourcing configuration, and or 
 # ApplicationSet Template
   template:
     metadata:
-      name: '{{component}}'
+      # Prefix the ArgoCD Application CRD name with the cluster name
+      # this gaurantee's uniqueness when dealing with multiple clusters
+      # from a single instance of ArgoCD
+      name: '{{name}}-{{component}}'
     spec:
       project: 'sample'
       sources:
@@ -92,6 +95,9 @@ ArgoCD Application objects can take advantage of sourcing configuration, and or 
           targetRevision: '{{chartVersion}}' 
           path: '{{chartPath}}'
           helm: 
+            # Helm releaseName resets the name of the installation
+            # in the target cluster back to the expexted name vs.
+            # the ArgoCD Application CRD name which prepends the cluster name
             releaseName: '{{component}}'
             ignoreMissingValueFiles: true
             valueFiles:
@@ -181,6 +187,7 @@ spec:
                 - path: "foundation-charts/"
           # cluster generator, 'child' #2
           # {} matches any and all clusters registered
+          # https://argocd-applicationset.readthedocs.io/en/stable/Generators-Cluster/
           - clusters: {}
 
 ```

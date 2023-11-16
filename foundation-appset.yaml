@@ -38,7 +38,10 @@ spec:
           - clusters: {}
   template:
     metadata:
-      name: '{{component}}'
+      # Prefix the ArgoCD Application CRD name with the cluster name
+      # this gaurantee's uniqueness when dealing with multiple clusters
+      # from a single instance of ArgoCD
+      name: '{{name}}-{{component}}'
     spec:
       project: 'foundation'
       source:
@@ -46,6 +49,10 @@ spec:
         repoURL: '{{repoURL}}'
         targetRevision: '{{version}}'
         helm:
+          # Helm releaseName resets the name of the installation
+          # in the target cluster back to the expexted name vs.
+          # the ArgoCD Application CRD name which prepends the cluster name
+          releaseName: '{{component}}'
           values: |-
             {{values}}
       destination:

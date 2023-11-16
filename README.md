@@ -96,7 +96,7 @@ ArgoCD Application objects can take advantage of sourcing configuration, and or 
           path: '{{chartPath}}'
           helm: 
             # Helm releaseName resets the name of the installation
-            # in the target cluster back to the expexted name vs.
+            # in the target cluster back to the expected name vs.
             # the ArgoCD Application CRD name which prepends the cluster name
             releaseName: '{{component}}'
             ignoreMissingValueFiles: true

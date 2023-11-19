@@ -45,7 +45,7 @@ spec:
     spec:
       project: 'foundation'
       source:
-        chart: '{{component}}'
+        chart: '{{chart}}'
         repoURL: '{{repoURL}}'
         targetRevision: '{{version}}'
         helm:

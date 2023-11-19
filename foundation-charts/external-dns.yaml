@@ -1,0 +1,6 @@
+component: external-dns
+chart: bitnamicharts/external-dns
+repoURL: registry-1.docker.io
+version: 6.28.4
+namespace: external-dns
+values: |-

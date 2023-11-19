@@ -1,5 +1,5 @@
 component: external-dns
-repoURL: oci://registry-1.docker.io/bitnamicharts/external-dns
+repoURL: oci://registry-1.docker.io/bitnamicharts/
 version: 6.28.4
 namespace: external-dns
 values: |-

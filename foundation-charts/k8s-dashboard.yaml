@@ -1,4 +1,5 @@
 component: kubernetes-dashboard
+chart: kubernetes-dashboard
 repoURL: https://kubernetes.github.io/dashboard
 version: 5.11.0
 namespace: kubernetes-dashboard

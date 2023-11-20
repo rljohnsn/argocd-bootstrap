@@ -113,7 +113,7 @@ ArgoCD Application objects can take advantage of sourcing configuration, and or 
               - $values/variant/{{metadata.labels.region}}/values.yaml
               - $values/variant/{{metadata.labels.region}}/{{component}}-values.yaml
               - $values/variant/{{metadata.labels.region}}/{{name}}/values.yaml
-              - $values/variant/{{metadata.labels.region}}/{{name}}/{{componen}}-values.yaml
+              - $values/variant/{{metadata.labels.region}}/{{name}}/{{component}}-values.yaml
         # Values overrides, referenced above as $values
         - repoURL: '{{valuesURL}}'
           targetRevision: '{{valuesVersion}}' 

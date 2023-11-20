@@ -23,11 +23,11 @@ One new feature as of ArgoCD v2.6.x is the multiple `sources` feature for Applic
 Using the described strategy we will break the components into three resources:
 
 * Argo Application Set Git Repository
-    * `argocd-bootstrap`: app set definitions and render strategies
+    * [argocd-bootstrap](https://github.com/rljohnsn/argocd-bootstrap): app set definitions and render strategies
 * Argo Application Context Values
-    * `argocd-env`: contextual values for environments / k8s clusters for each service
+    * [argocd-env](https://github.com/rljohnsn/argocd-env): contextual values for environments / k8s clusters for each service
 * Generic Helm Chart
-    * `argocd-helm`: sample chart
+    * [argocd-helm](https://github.com/rljohnsn/argocd-helm): sample chart
 
 ```bash
 # Argo ApplicationSets

@@ -1,4 +1,5 @@
 component: sample
+chart: argocd-helm
 # Chart URL can be Helm Repository or Gitrepo
 chartURL: https://github.com/rljohnsn/argocd-helm.git
 # If using a helm repository, chartVersion would be chart version

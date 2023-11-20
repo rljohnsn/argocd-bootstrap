@@ -10,6 +10,5 @@ valuesURL: https://github.com/rljohnsn/argocd-env.git
 valuesVersion: HEAD
 valuesPath: '.'
 namespace: sample
-project: sample
 values: ''
 

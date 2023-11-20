@@ -32,7 +32,7 @@ spec:
               repoURL: https://github.com/rljohnsn/argocd-bootstrap.git
               revision: main
               files:
-                - path: "sample-charts/"
+                - path: "applications/sample/"
           # cluster generator, 'child' #2
           - clusters: {}
   template:
@@ -46,6 +46,7 @@ spec:
       sources:
         # Sample Helm Chart
         - repoURL: '{{chartURL}}'
+          chart: '{{chart}}'
           targetRevision: '{{chartVersion}}' 
           path: '{{chartPath}}'
           helm: 
@@ -59,12 +60,12 @@ spec:
             valueFiles:
               - '$values/base/values.yaml'
               - '$values/base/{{component}}-values.yaml'
-              - '$values/env/{{env}}/values.yaml'
-              - '$values/env/{{env}}/{{component}}-values.yaml'
-              - '$values/variant/{{region}}/values.yaml'
-              - '$values/variant/{{region}}/{{component}}-values.yaml'
-              - '$values/variant/{{region}}/{{cluster}}/values.yaml'
-              - '$values/variant/{{region}}/{{cluster}}/{{component}}-values.yaml'
+              - '$values/env/{{metadata.labels.env}}/values.yaml'
+              - '$values/env/{{metadata.labels.env}}/{{component}}-values.yaml'
+              - '$values/variant/{{metadata.labels.region}}/values.yaml'
+              - '$values/variant/{{metadata.labels.region}}/{{component}}-values.yaml'
+              - '$values/variant/{{metadata.labels.region}}/{{name}}/values.yaml'
+              - '$values/variant/{{metadata.labels.region}}/{{name}}/{{component}}-values.yaml'
         # Values overrides
         - repoURL: '{{valuesURL}}'
           targetRevision: '{{valuesVersion}}' 

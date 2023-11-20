@@ -1,0 +1,10 @@
+component: external-dns
+chart: bitnamicharts/external-dns
+chartURL: registry-1.docker.io
+chartVersion: 6.28.4
+chartPath: '.'
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: '.'
+namespace: external-dns
+values: |-

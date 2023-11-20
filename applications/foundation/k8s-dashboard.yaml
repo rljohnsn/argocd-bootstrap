@@ -1,0 +1,10 @@
+component: kubernetes-dashboard
+chart: kubernetes-dashboard
+chartURL: https://kubernetes.github.io/dashboard
+chartVersion: 5.11.0
+chartPath: '.'
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: '.'
+namespace: kubernetes-dashboard
+values: |-

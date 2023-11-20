@@ -33,7 +33,7 @@ spec:
               repoURL: https://github.com/rljohnsn/argocd-bootstrap.git
               revision: main
               files:
-                - path: "foundation-charts/"
+                - path: "applications/foundation/"
           # cluster generator, 'child' #2
           - clusters: {}
   template:
@@ -44,17 +44,34 @@ spec:
       name: '{{name}}-{{component}}'
     spec:
       project: 'foundation'
-      source:
-        chart: '{{chart}}'
-        repoURL: '{{repoURL}}'
-        targetRevision: '{{version}}'
-        helm:
-          # Helm releaseName resets the name of the installation
-          # in the target cluster back to the expected name vs.
-          # the ArgoCD Application CRD name which prepends the cluster name
-          releaseName: '{{component}}'
-          values: |-
-            {{values}}
+      sources:
+        # Sample Helm Chart
+        - repoURL: '{{chartURL}}'
+          chart: '{{chart}}'
+          targetRevision: '{{chartVersion}}' 
+          path: '{{chartPath}}'
+          helm: 
+            # Helm releaseName resets the name of the installation
+            # in the target cluster back to the expected name vs.
+            # the ArgoCD Application CRD name which prepends the cluster name
+            releaseName: '{{component}}'
+            values: |-
+              {{values}}
+            ignoreMissingValueFiles: true
+            valueFiles:
+              - '$values/base/values.yaml'
+              - '$values/base/{{component}}-values.yaml'
+              - '$values/env/{{metadata.labels.env}}/values.yaml'
+              - '$values/env/{{metadata.labels.env}}/{{component}}-values.yaml'
+              - '$values/variant/{{metadata.labels.region}}/values.yaml'
+              - '$values/variant/{{metadata.labels.region}}/{{component}}-values.yaml'
+              - '$values/variant/{{metadata.labels.region}}/{{name}}/values.yaml'
+              - '$values/variant/{{metadata.labels.region}}/{{name}}/{{component}}-values.yaml'
+        # Values overrides
+        - repoURL: '{{valuesURL}}'
+          targetRevision: '{{valuesVersion}}' 
+          path: '{{valuesPath}}'
+          ref: values
       destination:
         server: '{{server}}'
         namespace: '{{namespace}}'

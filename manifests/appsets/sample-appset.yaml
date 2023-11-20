@@ -46,6 +46,7 @@ spec:
       sources:
         # Sample Helm Chart
         - repoURL: '{{chartURL}}'
+          # Chart attribute incompatible with git repoURLs
           #chart: '{{chart}}'
           targetRevision: '{{chartVersion}}' 
           path: '{{chartPath}}'

@@ -1,6 +1,6 @@
 ## Application Metadata
 
-Each sub directory here is a grouping of application metadata referenced by an [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/applicationset-specification/) object in [manifests](manifests) directory.
+Each sub directory here is a grouping of application metadata referenced by an [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/applicationset-specification/) object in [manifests](/manifests) directory.
 
 An [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/applicationset-specification/) template has certain values it references from these metadata files to generate [Application](https://argo-cd.readthedocs.io/en/stable/user-guide/application-specification/) objects for each.
 

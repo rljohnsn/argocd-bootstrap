@@ -32,19 +32,24 @@ Using the described strategy we will break the components into three resources:
 ```bash
 # Argo ApplicationSets
 argocd-bootstrap
-├── README.md
-│ # Strategy for loading foundation-charts
-├── foundation-appset.yaml
-├── foundation-charts
-| # Application metadata file
-│   ├── k8s-dashboard.yaml
-│   └── ...
-│ # Strategy for loading sample-charts
-├── sample-appset.yaml
-└── sample-charts
-    | # Application metadata file
-    ├── sample-service.yaml
-    └── ...
+├── applications
+|   | # Application metadata files
+│   ├── foundation
+│   │   ├── external-dns.yaml
+│   │   └── k8s-dashboard.yaml
+│   └── sample
+│       ├── sample-service.yaml
+│       ├── sample2-service.yaml
+│       ├── sample3-service.yaml
+│       └── sample4-service.yaml
+└── manifests
+    │ # Strategies for loading applications
+    ├── appsets
+    │   ├── foundation-appset.yaml
+    │   └── sample-appset.yaml
+    │ # Private git repo 
+    └── repos
+        └── docker-helm-repo.yaml
 
 # Application Values 
 argocd-env
@@ -103,12 +108,12 @@ ArgoCD Application objects can take advantage of sourcing configuration, and or 
             valueFiles:
               - $values/base/values.yaml
               - $values/base/{{component}}-values.yaml
-              - $values/env/{{env}}/values.yaml
-              - $values/env/{{env}}/{{component}}-values.yaml
-              - $values/variant/{{region}}/values.yaml
-              - $values/variant/{{region}}/{{component}}-values.yaml
-              - $values/variant/{{region}}/{{cluster}}/values.yaml
-              - $values/variant/{{region}}/{{cluster}}/{{component}}-values.yaml
+              - $values/env/{{metadata.labels.env}}/values.yaml
+              - $values/env/{{metadata.labels.env}}/{{component}}-values.yaml
+              - $values/variant/{{metadata.labels.region}}/values.yaml
+              - $values/variant/{{metadata.labels.region}}/{{component}}-values.yaml
+              - $values/variant/{{metadata.labels.region}}/{{name}}/values.yaml
+              - $values/variant/{{metadata.labels.region}}/{{name}}/{{componen}}-values.yaml
         # Values overrides, referenced above as $values
         - repoURL: '{{valuesURL}}'
           targetRevision: '{{valuesVersion}}' 
@@ -145,11 +150,11 @@ We can expand the multiple sources and pull from distinct repos at each level.
             ignoreMissingValueFiles: true
             valueFiles:
               - $base/values.yaml
-              - $env/{{env}}/values.yaml
-              - $env/{{env}}/{{component}}-values.yaml
-              - $variant/{{region}}/values.yaml
-              - $variant/{{region}}/{{component}}-values.yaml
-              - $variant/{{region}}/{{cluster}}/values.yaml
+              - $env/{{metadata.labels.env}}/values.yaml
+              - $env/{{metadata.labels.env}}/{{component}}-values.yaml
+              - $variant/{{metadata.labels.region}}/values.yaml
+              - $variant/{{metadata.labels.region}}/{{component}}-values.yaml
+              - $variant/{{metadata.labels.region}}/{{name}}/values.yaml
         # Global values overrides
         - repoURL: '{{valuesURL}}'
           targetRevision: '{{valuesVersion}}' 
@@ -232,7 +237,7 @@ remote: Resolving deltas: 100% (1/1), completed with 1 local object.
 To github.com:rljohnsn/argocd-bootstrap.git
    7f7bd5d..2143410  main -> main
 
-> k -N argocd apply -f *-appset.yaml
+> k -N argocd apply -f /manifests/appsets/*-appset.yaml
 appproject.argoproj.io/foundation created
 applicationset.argoproj.io/foundation-appset created
 appproject.argoproj.io/sample created

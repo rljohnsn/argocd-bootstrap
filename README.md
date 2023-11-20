@@ -124,14 +124,108 @@ ArgoCD Application objects can take advantage of sourcing configuration, and or 
         namespace: '{{namespace}}'
 ```
 
+Some values in the ArgoCD [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/applicationset-specification/) template come from the [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/applicationset-specification/) [Generator](https://argo-cd.readthedocs.io/en/stable/user-guide/application-set/). Namely [`{{name}}`,`{{server}}`]
+
+The clusters registered within ArgoCD may include labels and or annotations. Both of which may also be referenced as part of the `{{metdata}}` attribute provided by the ApplicationSet Generator.
+
+
 ```yaml
 # Application Metadata read by the generator
 component: sample
+chart: argocd-helm
 # Chart URL can be Helm Repository or Gitrepo
 chartURL: https://github.com/rljohnsn/argocd-helm.git
+# If using a helm repository, chartVersion would be chart
+# If using a gitrepo branch and tags can be used
+chartVersion: HEAD
+chartPath: '.'
 valuesURL: https://github.com/rljohnsn/argocd-env.git
-version: 1.0.0
+valuesVersion: HEAD
+valuesPath: '.'
 namespace: sample
+values: ''
+
+
+component: sample
+chart: argocd-helm
+# Chart URL can be Helm Repository or Gitrepo
+chartURL: https://github.com/rljohnsn/argocd-helm.git
+# If using a helm repository, chartVersion would be chart
+# If using a gitrepo branch and tags can be used
+chartVersion: HEAD
+chartPath: '.'
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: '.'
+namespace: sample
+project: sample
+values: ''
+
+
+component: sample
+chart: argocd-helm
+# Chart URL can be Helm Repository or Gitrepo
+chartURL: https://github.com/rljohnsn/argocd-helm.git
+# If using a helm repository, chartVersion would be chart
+# If using a gitrepo branch and tags can be used
+chartVersion: HEAD
+chartPath: '.'
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: '.'
+namespace: sample
+project: sample
+values: ''
+
+
+component: sample
+chart: argocd-helm
+# Chart URL can be Helm Repository or Gitrepo
+chartURL: https://github.com/rljohnsn/argocd-helm.git
+# If using a helm repository, chartVersion would be chart
+# If using a gitrepo branch and tags can be used
+chartVersion: HEAD
+chartPath: '.'
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: '.'
+namespace: sample
+project: sample
+values: ''
+
+
+component: sample
+chart: argocd-helm
+# Chart URL can be Helm Repository or Gitrepo
+chartURL: https://github.com/rljohnsn/argocd-helm.git
+# If using a helm repository, chartVersion would be chart
+# If using a gitrepo branch and tags can be used
+chartVersion: HEAD
+chartPath: '.'
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: '.'
+namespace: sample
+project: sample
+values: ''
+
+
+component: sample
+chart: argocd-helm
+# Chart URL can be Helm Repository or Gitrepo
+chartURL: https://github.com/rljohnsn/argocd-helm.git
+# If using a helm repository, chartVersion would be chart
+# If using a gitrepo branch and tags can be used
+chartVersion: HEAD
+chartPath: '.'
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: '.'
+namespace: sample
+project: sample
+values: ''
+
+
 ```
 
 

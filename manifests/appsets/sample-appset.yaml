@@ -46,7 +46,7 @@ spec:
       sources:
         # Sample Helm Chart
         - repoURL: '{{chartURL}}'
-          chart: '{{chart}}'
+          #chart: '{{chart}}'
           targetRevision: '{{chartVersion}}' 
           path: '{{chartPath}}'
           helm: 

@@ -4,7 +4,7 @@ chart: argocd-helm
 chartURL: https://github.com/rljohnsn/argocd-helm.git
 # If using a helm repository, chartVersion would be chart version
 # If using a gitrepo branch and tags can be used
-chartVersion: 0.1.1
+chartVersion: HEAD
 chartPath: '.'
 valuesURL: https://github.com/rljohnsn/argocd-env.git
 valuesVersion: HEAD

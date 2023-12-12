@@ -1,0 +1,10 @@
+component: istio-base
+chart: base
+chartURL: https://istio-release.storage.googleapis.com/charts
+chartVersion: 1.20.0
+chartPath: "."
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: "."
+namespace: istio-system
+values: |-

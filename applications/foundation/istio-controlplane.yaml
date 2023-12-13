@@ -1,0 +1,17 @@
+component: istio-controlplane
+chart: istiod
+chartURL: https://istio-release.storage.googleapis.com/charts
+chartVersion: 1.20.0
+chartPath: "."
+valuesURL: https://github.com/rljohnsn/argocd-env.git
+valuesVersion: HEAD
+valuesPath: "."
+namespace: istio-system
+values: |-
+  global:
+    meshID: "istio"
+    network: "istio"
+    configValidation: false
+  multiCluster:
+    enabled: true
+    network: "istio"

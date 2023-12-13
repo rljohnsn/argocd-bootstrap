@@ -2,19 +2,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: sample 
+  name: sample
+  namespace: argocd
 spec:
   description: "Sample set of services"
   sourceRepos:
-    - '*'
+    - "*"
   sourceNamespaces:
-    - 'sample'
+    - "sample"
   destinations:
-    - namespace: 'sample'
-      server: '*'
+    - namespace: "sample"
+      server: "*"
   clusterResourceWhitelist:
-  - group: ''
-    kind: Namespace
+    - group: ""
+      kind: Namespace
 
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -32,7 +33,7 @@ spec:
               repoURL: https://github.com/rljohnsn/argocd-bootstrap.git
               revision: main
               files:
-                - path: "applications/sample/"
+                - path: "applications/sample/*.yaml"
           # cluster generator, 'child' #2
           - clusters: {}
   template:
@@ -40,41 +41,41 @@ spec:
       # Prefix the ArgoCD Application CRD name with the cluster name
       # this gaurantee's uniqueness when dealing with multiple clusters
       # from a single instance of ArgoCD
-      name: '{{name}}-{{component}}'
+      name: "{{name}}-{{component}}"
     spec:
-      project: 'sample'
+      project: "sample"
       sources:
         # Sample Helm Chart
-        - repoURL: '{{chartURL}}'
+        - repoURL: "{{chartURL}}"
           # Chart attribute incompatible with git repoURLs
           #chart: '{{chart}}'
-          targetRevision: '{{chartVersion}}' 
-          path: '{{chartPath}}'
-          helm: 
+          targetRevision: "{{chartVersion}}"
+          path: "{{chartPath}}"
+          helm:
             # Helm releaseName resets the name of the installation
             # in the target cluster back to the expected name vs.
             # the ArgoCD Application CRD name which prepends the cluster name
-            releaseName: '{{component}}'
+            releaseName: "{{component}}"
             values: |-
               {{values}}
             ignoreMissingValueFiles: true
             valueFiles:
-              - '$values/base/values.yaml'
-              - '$values/base/{{component}}-values.yaml'
-              - '$values/env/{{metadata.labels.env}}/values.yaml'
-              - '$values/env/{{metadata.labels.env}}/{{component}}-values.yaml'
-              - '$values/variant/{{metadata.labels.region}}/values.yaml'
-              - '$values/variant/{{metadata.labels.region}}/{{component}}-values.yaml'
-              - '$values/variant/{{metadata.labels.region}}/{{name}}/values.yaml'
-              - '$values/variant/{{metadata.labels.region}}/{{name}}/{{component}}-values.yaml'
+              - "$values/base/values.yaml"
+              - "$values/base/{{component}}-values.yaml"
+              - "$values/env/{{metadata.labels.env}}/values.yaml"
+              - "$values/env/{{metadata.labels.env}}/{{component}}-values.yaml"
+              - "$values/variant/{{metadata.labels.region}}/values.yaml"
+              - "$values/variant/{{metadata.labels.region}}/{{component}}-values.yaml"
+              - "$values/variant/{{metadata.labels.region}}/{{name}}/values.yaml"
+              - "$values/variant/{{metadata.labels.region}}/{{name}}/{{component}}-values.yaml"
         # Values overrides
-        - repoURL: '{{valuesURL}}'
-          targetRevision: '{{valuesVersion}}' 
-          path: '{{valuesPath}}'
+        - repoURL: "{{valuesURL}}"
+          targetRevision: "{{valuesVersion}}"
+          path: "{{valuesPath}}"
           ref: values
       destination:
-        server: '{{server}}'
-        namespace: '{{namespace}}'
+        server: "{{server}}"
+        namespace: "{{namespace}}"
 
       syncPolicy:
         automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
@@ -86,7 +87,7 @@ spec:
           - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
           - PrunePropagationPolicy=foreground # Supported policies are background, foreground and orphan.
           - PruneLast=true # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
-        # The retry feature is available since v1.7
+          # The retry feature is available since v1.7
           - RespectIgnoreDifferences=true
         retry:
           limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0

@@ -5,7 +5,7 @@ A strategy for managing the deployment of many microservices across many K8s clu
 ## ApplicationSets and Applications
 Making use of [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/applicationset-specification/) ArgoCD objects we can provide a simple pattern to manage any number of service deployments via Helm.
 
-In essence an [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/applicationset-specification/) is a template used to generate [Application](https://argo-cd.readthedocs.io/en/stable/user-guide/application-specification/) objects. Given a specific strategy for how to render them we can minimize the amount of metadata needing repition. 
+In essence an [ApplicationSet](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/applicationset-specification/) is a template used to generate [Application](https://argo-cd.readthedocs.io/en/stable/user-guide/application-specification/) objects. Given a specific strategy for how to render them we can minimize the amount of metadata needing repetition. 
 
 Using the [Matrix](https://argo-cd.readthedocs.io/en/stable/operator-manual/applicationset/Generators-Matrix/) generator strategy gives the most flexibility with a minimal amount of metadata. It essentially combines two other ApplicationSet generator strategies into one. The two utilized in this example are:
 

@@ -78,6 +78,9 @@ spec:
         namespace: "{{namespace}}"
 
       syncPolicy:
+        managedNamespaceMetadata:
+          labels:
+            istio-injection: enabled
         automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
           prune: true # Specifies if resources should be pruned during auto-syncing ( false by default ).
           selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
@@ -87,7 +90,7 @@ spec:
           - CreateNamespace=true # Namespace Auto-Creation ensures that namespace specified as the application destination exists in the destination cluster.
           - PrunePropagationPolicy=foreground # Supported policies are background, foreground and orphan.
           - PruneLast=true # Allow the ability for resource pruning to happen as a final, implicit wave of a sync operation
-          # The retry feature is available since v1.7
+          - ServerSideApply=true
           - RespectIgnoreDifferences=true
         retry:
           limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0
